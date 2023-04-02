@@ -1,2 +1,2 @@
 # fcpx-auto-captions
-Auto Captions for FInal Cut Pro
+Auto Captions for Final Cut Pro
