@@ -1,0 +1,388 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D03D5A6729FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */; };
+		D03D5A6929FE70AD003BD609 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D5A6829FE70AD003BD609 /* ContentView.swift */; };
+		D03D5A6B29FE70AE003BD609 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A6A29FE70AE003BD609 /* Assets.xcassets */; };
+		D03D5A6E29FE70AE003BD609 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */; };
+		D03D5A7D29FE7161003BD609 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7B29FE7161003BD609 /* ffmpeg */; };
+		D03D5A8229FE71A9003BD609 /* ggml-tiny.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */; };
+		D03D5A8329FE71A9003BD609 /* ggml-small.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7629FE70F4003BD609 /* ggml-small.bin */; };
+		D03D5A8429FE71A9003BD609 /* ggml-base.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7729FE70FE003BD609 /* ggml-base.bin */; };
+		D03D5A8529FE71A9003BD609 /* ggml-large.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7829FE7155003BD609 /* ggml-large.bin */; };
+		D03D5A8629FE71A9003BD609 /* fcpx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7A29FE7158003BD609 /* fcpx-icon.png */; };
+		D03D5A8729FE71A9003BD609 /* ggml-medium.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7E29FE7196003BD609 /* ggml-medium.bin */; };
+		D03D5A8829FE71A9003BD609 /* main in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A8129FE71A9003BD609 /* main */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper Auto Captions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whisper_Auto_CaptionsApp.swift; sourceTree = "<group>"; };
+		D03D5A6829FE70AD003BD609 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D03D5A6A29FE70AE003BD609 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D03D5A6F29FE70AE003BD609 /* Whisper_Auto_Captions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Whisper_Auto_Captions.entitlements; sourceTree = "<group>"; };
+		D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-tiny.bin"; sourceTree = "<group>"; };
+		D03D5A7629FE70F4003BD609 /* ggml-small.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-small.bin"; sourceTree = "<group>"; };
+		D03D5A7729FE70FE003BD609 /* ggml-base.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-base.bin"; sourceTree = "<group>"; };
+		D03D5A7829FE7155003BD609 /* ggml-large.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-large.bin"; sourceTree = "<group>"; };
+		D03D5A7A29FE7158003BD609 /* fcpx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fcpx-icon.png"; path = "../../../fcpx-icon.png"; sourceTree = "<group>"; };
+		D03D5A7B29FE7161003BD609 /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
+		D03D5A7E29FE7196003BD609 /* ggml-medium.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-medium.bin"; sourceTree = "<group>"; };
+		D03D5A8129FE71A9003BD609 /* main */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = main; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D03D5A6029FE70AD003BD609 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D03D5A5A29FE70AD003BD609 = {
+			isa = PBXGroup;
+			children = (
+				D03D5A6529FE70AD003BD609 /* Whisper Auto Captions */,
+				D03D5A6429FE70AD003BD609 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D03D5A6429FE70AD003BD609 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D03D5A6529FE70AD003BD609 /* Whisper Auto Captions */ = {
+			isa = PBXGroup;
+			children = (
+				D03D5A7A29FE7158003BD609 /* fcpx-icon.png */,
+				D03D5A7B29FE7161003BD609 /* ffmpeg */,
+				D03D5A7729FE70FE003BD609 /* ggml-base.bin */,
+				D03D5A7829FE7155003BD609 /* ggml-large.bin */,
+				D03D5A7E29FE7196003BD609 /* ggml-medium.bin */,
+				D03D5A7629FE70F4003BD609 /* ggml-small.bin */,
+				D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */,
+				D03D5A8129FE71A9003BD609 /* main */,
+				D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */,
+				D03D5A6829FE70AD003BD609 /* ContentView.swift */,
+				D03D5A6A29FE70AE003BD609 /* Assets.xcassets */,
+				D03D5A6F29FE70AE003BD609 /* Whisper_Auto_Captions.entitlements */,
+				D03D5A6C29FE70AE003BD609 /* Preview Content */,
+			);
+			path = "Whisper Auto Captions";
+			sourceTree = "<group>";
+		};
+		D03D5A6C29FE70AE003BD609 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D03D5A6229FE70AD003BD609 /* Whisper Auto Captions */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D03D5A7229FE70AE003BD609 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */;
+			buildPhases = (
+				D03D5A5F29FE70AD003BD609 /* Sources */,
+				D03D5A6029FE70AD003BD609 /* Frameworks */,
+				D03D5A6129FE70AD003BD609 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Whisper Auto Captions";
+			productName = "Whisper Auto Captions";
+			productReference = D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D03D5A5B29FE70AD003BD609 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					D03D5A6229FE70AD003BD609 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = D03D5A5E29FE70AD003BD609 /* Build configuration list for PBXProject "Whisper Auto Captions" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D03D5A5A29FE70AD003BD609;
+			productRefGroup = D03D5A6429FE70AD003BD609 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D03D5A6229FE70AD003BD609 /* Whisper Auto Captions */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D03D5A6129FE70AD003BD609 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03D5A6E29FE70AE003BD609 /* Preview Assets.xcassets in Resources */,
+				D03D5A8729FE71A9003BD609 /* ggml-medium.bin in Resources */,
+				D03D5A8329FE71A9003BD609 /* ggml-small.bin in Resources */,
+				D03D5A8429FE71A9003BD609 /* ggml-base.bin in Resources */,
+				D03D5A8629FE71A9003BD609 /* fcpx-icon.png in Resources */,
+				D03D5A8829FE71A9003BD609 /* main in Resources */,
+				D03D5A8529FE71A9003BD609 /* ggml-large.bin in Resources */,
+				D03D5A7D29FE7161003BD609 /* ffmpeg in Resources */,
+				D03D5A8229FE71A9003BD609 /* ggml-tiny.bin in Resources */,
+				D03D5A6B29FE70AE003BD609 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D03D5A5F29FE70AD003BD609 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03D5A6929FE70AD003BD609 /* ContentView.swift in Sources */,
+				D03D5A6729FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D03D5A7029FE70AE003BD609 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D03D5A7129FE70AE003BD609 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		D03D5A7329FE70AE003BD609 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Whisper Auto Captions/Whisper_Auto_Captions.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Whisper Auto Captions/Preview Content\"";
+				DEVELOPMENT_TEAM = VFBY2CCN3N;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "shaishaicookie.Whisper-Auto-Captions";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		D03D5A7429FE70AE003BD609 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Whisper Auto Captions/Whisper_Auto_Captions.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Whisper Auto Captions/Preview Content\"";
+				DEVELOPMENT_TEAM = VFBY2CCN3N;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "shaishaicookie.Whisper-Auto-Captions";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D03D5A5E29FE70AD003BD609 /* Build configuration list for PBXProject "Whisper Auto Captions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D03D5A7029FE70AE003BD609 /* Debug */,
+				D03D5A7129FE70AE003BD609 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D03D5A7229FE70AE003BD609 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D03D5A7329FE70AE003BD609 /* Debug */,
+				D03D5A7429FE70AE003BD609 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D03D5A5B29FE70AD003BD609 /* Project object */;
+}
