@@ -1,12 +1,9 @@
 # Whisper Auto Captions
-
 <p align="center">
-<img height="256" src="https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/Whisper%20Auto%20Captions/Assets.xcassets/AppIcon.appiconset/1024.png" />
+    <img height="256" src="https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/Whisper%20Auto%20Captions/Assets.xcassets/AppIcon.appiconset/1024.png" />
 </p>
-
-
-## Overview
-An macOS application that Generate Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model
+<h1 align="center">Whisper Auto Captions</h1>
+<p align="center">Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model</p>
 
 
 ## Demo Video
