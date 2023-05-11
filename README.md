@@ -1,4 +1,3 @@
-# Whisper Auto Captions
 <p align="center">
     <img height="256" src="https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/Whisper%20Auto%20Captions/Assets.xcassets/AppIcon.appiconset/1024.png" />
 </p>
