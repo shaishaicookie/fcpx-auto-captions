@@ -7,12 +7,10 @@
 
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
-<iframe width="560" height="315"
-src="https://youtu.be/2_QOACyuZIk" 
-frameborder="0" 
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen></iframe>
 
+<div align="center">
+  <a href="[https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/2_QOACyuZIk)"><img src="https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/features/ytb-cover.png" alt="IMAGE ALT TEXT"></a>
+</div>
 
 ## Website
 https://whisperautocaptions.com/
