@@ -7,6 +7,8 @@
 
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
+[![Demo]([http://i.imgur.com/Ot5DWAW.png](https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/features/ytb-cover.png))](https://youtu.be/2_QOACyuZIk "Demo")
+
 
 
 ## Website
