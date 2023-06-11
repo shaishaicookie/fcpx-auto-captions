@@ -16,6 +16,11 @@ Youtube: https://youtu.be/2_QOACyuZIk
 ## Website
 https://whisperautocaptions.com/
 
+
+## Download
+[Apple Chip](https://drive.google.com/file/d/1qaNZb7LKtxKjMkoMdEoE6xOks4n36fNR/view?usp=sharing)
+[Intel Chip](https://drive.google.com/file/d/1Sshl-sc_QW1WnSBd8H3Dvm8nHedwyeiW/view?usp=sharing)
+
 ## Features
 * Accurate transcription in over 90 languages
 * Live output & Progress bar
