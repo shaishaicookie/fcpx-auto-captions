@@ -296,7 +296,7 @@ struct HomeView: View {
             let total_srt_time = last_subtitle.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n")[1].components(separatedBy: " --> ")[1]
             let total_frame = srt_time_to_frame(srt_time: total_srt_time, fps: fps)
             let hundred_fold_total_frame = String(100 * total_frame)
-            let hundred_fold_fps = String(fps * 100)
+            let hundred_fold_fps = String(Int(fps * 100))
 
             // fcpxml
             let fcpxmlElement = XMLElement(name: "fcpxml")
