@@ -6,8 +6,8 @@
 
 ## TODOS
 * fix download error
-* add multi thread batch process for long audio input
-* add srt language translation (add large language model or translationi API)
+* add multi thread batch processing for long audio input
+* add srt language translation (add large language model or translation API)
   
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
