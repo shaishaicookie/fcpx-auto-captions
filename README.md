@@ -4,7 +4,11 @@
 <h1 align="center">Whisper Auto Captions</h1>
 <p align="center">Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model</p>
 
-
+## TODOS
+* fix download error
+* add multi thread batch process for long audio input
+* add srt language translation (add large language model or translationi API)
+  
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
 
@@ -27,10 +31,7 @@ https://whisperautocaptions.com/
 * Send fcpxml directly to Final Cut Pro X
 * Support downloading .srt files for seamless editing in Adobe Premiere Pro, DaVinci Resolve & Sony Vegas （New Features !)
 
-## TODOS
-* fix download error
-* add multi thread batch process for long audio input
-* add srt language translation (add large language model or translationi API)
+
 
 
 
