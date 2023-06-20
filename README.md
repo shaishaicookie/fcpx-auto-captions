@@ -6,6 +6,7 @@
 
 ## TODOS
 - [ ] fix download error
+- [ ] add model download (reduce app size)
 - [ ] add multi thread batch processing for long audio input
 - [ ] add srt language translation (add large language model or translation API)
   
