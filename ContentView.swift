@@ -1,6 +1,41 @@
 import SwiftUI
 import Foundation
 
+class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
+    var model: String
+    var progressHandler: ((Double) -> Void)?
+    var completionHandler: (() -> Void)?
+
+    init(model: String, progressHandler: ((Double) -> Void)? = nil, completionHandler: (() -> Void)? = nil) {
+        self.model = model
+        self.progressHandler = progressHandler
+        self.completionHandler = completionHandler
+    }
+
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+        // Handle downloaded file here
+        let fileManager = FileManager.default
+        let applicationSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        let whisperAutoCaptionsURL = applicationSupportDirectory.appendingPathComponent("Whisper Auto Captions")
+        let destinationURL = whisperAutoCaptionsURL.appendingPathComponent("ggml-\(model.lowercased()).bin")
+
+        // Move the downloaded file to the destination URL
+        do {
+            try fileManager.moveItem(at: location, to: destinationURL)
+            print("File downloaded and moved to: \(destinationURL.path)")
+            completionHandler?()
+        } catch {
+            print("Error moving file: \(error)")
+        }
+    }
+
+    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        let progress = Double(totalBytesWritten) / Double(totalBytesExpectedToWrite)
+        progressHandler?(progress)
+    }
+}
+
+
 struct ContentView: View {
     @State var startCreatingAutoCaptions = false
     @State var progress = 0.0
@@ -8,12 +43,13 @@ struct ContentView: View {
     @State var remainingTime = "00:00"
     @State var projectName = ""
     @State var outputCaptions = ""
+    @State var outputSRTFilePath = ""
     @State var outputFCPXMLFilePath = ""
     var body: some View {
         if startCreatingAutoCaptions {
-            ProcessView(progress: $progress, progressPercentage: $progressPercentage, remainingTime: $remainingTime, outputCaptions: $outputCaptions, projectName: $projectName, outputFCPXMLFilePath: $outputFCPXMLFilePath, isPresented: $startCreatingAutoCaptions)
+            ProcessView(progress: $progress, progressPercentage: $progressPercentage, remainingTime: $remainingTime, outputCaptions: $outputCaptions, projectName: $projectName, outputFCPXMLFilePath: $outputFCPXMLFilePath, outputSRTFilePath: $outputSRTFilePath,isPresented: $startCreatingAutoCaptions).frame(minWidth: 600, minHeight: 600)
         } else {
-            HomeView(startCreatingAutoCaptions: $startCreatingAutoCaptions, progress: $progress, progressPercentage: $progressPercentage, remainingTime: $remainingTime, outputCaptions: $outputCaptions, projectName: $projectName, outputFCPXMLFilePath: $outputFCPXMLFilePath)
+            HomeView(startCreatingAutoCaptions: $startCreatingAutoCaptions, progress: $progress, progressPercentage: $progressPercentage, remainingTime: $remainingTime, outputCaptions: $outputCaptions, projectName: $projectName, outputFCPXMLFilePath: $outputFCPXMLFilePath, outputSRTFilePath: $outputSRTFilePath).frame(minWidth: 600, minHeight: 600)
         }
     }
 }
@@ -24,7 +60,6 @@ struct HomeView: View {
     @State var fileURL: URL?
     @State var isSelected: Bool = false
     @State private var fps: String = ""
-    
     @State private var selectedLanguage = "Chinese"
     @State private var selectedModel = "Medium"
     let languages = ["Arabic", "Azerbaijani", "Armenian", "Albanian", "Afrikaans", "Amharic", "Assamese", "Bulgarian", "Bengali", "Breton", "Basque", "Bosnian", "Belarusian", "Bashkir", "Chinese", "Catalan", "Czech", "Croatian", "Dutch", "Danish", "English", "Estonian", "French", "Finnish", "Faroese", "German", "Greek", "Galician", "Georgian", "Gujarati", "Hindi", "Hebrew", "Hungarian", "Haitian creole", "Hawaiian", "Hausa", "Italian", "Indonesian", "Icelandic", "Japanese", "Javanese", "Korean", "Kannada", "Kazakh", "Khmer", "Lithuanian", "Latin", "Latvian", "Lao", "Luxembourgish", "Lingala", "Malay", "Maori", "Malayalam", "Macedonian", "Mongolian", "Marathi", "Maltese", "Myanmar", "Malagasy", "Norwegian", "Nepali", "Nynorsk", "Occitan", "Portuguese", "Polish", "Persian", "Punjabi", "Pashto", "Russian", "Romanian", "Spanish", "Swedish", "Slovak", "Serbian", "Slovenian", "Swahili", "Sinhala", "Shona", "Somali", "Sindhi", "Sanskrit", "Sundanese", "Turkish", "Tamil", "Thai", "Telugu", "Tajik", "Turkmen", "Tibetan", "Tagalog", "Tatar", "Ukrainian", "Urdu", "Uzbek", "Vietnamese", "Welsh", "Yoruba", "Yiddish"]
@@ -34,7 +69,7 @@ struct HomeView: View {
 
     
     @State var fileName: String = ""
-
+    
     @Binding var startCreatingAutoCaptions: Bool
     @Binding var progress: Double
     @Binding var progressPercentage: Int
@@ -42,6 +77,16 @@ struct HomeView: View {
     @Binding var outputCaptions: String
     @Binding var projectName: String
     @Binding var outputFCPXMLFilePath: String
+    @Binding var outputSRTFilePath: String
+    
+    
+    
+    
+    @State private var isDownloading = false
+    @State private var downloadProgress: Double = 0.0
+    @State private var showAlert = false
+    
+    
     
     var body: some View {
         VStack {
@@ -106,44 +151,126 @@ struct HomeView: View {
                 
                 GridRow {
                     Button(action: {
-//                        print("created")
-                        startCreatingAutoCaptions = true
-
-
-                        let filePathString = fileURL!.path
-                        let tempFolder = NSTemporaryDirectory()
+                        let fileManager = FileManager.default
+                        let applicationSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+                        let whisperAutoCaptionsURL = applicationSupportDirectory.appendingPathComponent("Whisper Auto Captions")
+                        let destinationURL = whisperAutoCaptionsURL.appendingPathComponent("ggml-\(selectedModel.lowercased()).bin")
                         
-                        // convert mp3 to 16kHz wav file
-                        let outputWavFilePath = mp3_to_wav(filePathString: filePathString, projectName: projectName, tempFolder: tempFolder)
-//                        print(outputWavFilePath!)
-
-
-                        var outputSRTFilePath: String?
-                        whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: outputWavFilePath!) { srtFilePath in
-                            outputSRTFilePath = srtFilePath
-              
+                        if fileManager.fileExists(atPath: destinationURL.path) {
+                            print("File exists")
+                            whisper_auto_captions()
+                        } else {
+                            print("File does not exist")
+                            download_model(model: selectedModel.lowercased()) { success in
+                                if success {
+                                    whisper_auto_captions()
+                                } else {
+                                    // Handle download failure
+                                }
+                            }
                         }
-
-        
-                        while outputSRTFilePath == nil {
-                            RunLoop.current.run(mode: .default, before: .distantFuture)
-                        }
-
-                        // srt to fcpxml
-                        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath!, fps: Int(fps)!, project_name: projectName, language: selectedLanguage)
                         
-
                         
-    
+                        
+                
+                        
+//                        startCreatingAutoCaptions = true
+//
+//
+//                        let filePathString = fileURL!.path
+//                        let tempFolder = NSTemporaryDirectory()
+//
+//                        // convert mp3 to 16kHz wav file
+//                        let outputWavFilePath = mp3_to_wav(filePathString: filePathString, projectName: projectName, tempFolder: tempFolder)
+//
+//                        var outputSRTFilePath: String?
+//                        whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: outputWavFilePath!) { srtFilePath in
+//                            outputSRTFilePath = srtFilePath}
+//
+//
+//                        while outputSRTFilePath == nil {
+//                            RunLoop.current.run(mode: .default, before: .distantFuture)
+//                        }
+//
+//                        // srt to fcpxml
+//                        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath!, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
+//
+//                        self.outputSRTFilePath = outputSRTFilePath!
+
                     }, label: {
                         Text("Create")
                     }).buttonStyle(BorderedProminentButtonStyle())
                         .gridCellAnchor(.center)
                         .disabled(fileURL == nil || fps.isEmpty)
                 }.gridCellColumns(2)
-                
             }
+            if isDownloading {
+                ProgressView(value: downloadProgress)
+                    .padding()
+                    .progressViewStyle(LinearProgressViewStyle())
+                    .frame(width: 200)
+            }
+        }.alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Downloading"),
+                message: Text(String(format: "Download progress: %.0f%%", downloadProgress * 100)),
+                primaryButton: .destructive(Text("Cancel"), action: {
+                    // Cancel the download task here
+                    self.isDownloading = false
+                    self.showAlert = false
+                }),
+                secondaryButton: .default(Text(""), action: {})
+            )
         }
+    }
+    
+    
+    func whisper_auto_captions() {
+        let filePathString = fileURL!.path
+        let tempFolder = NSTemporaryDirectory()
+
+        // convert mp3 to 16kHz wav file
+        let outputWavFilePath = mp3_to_wav(filePathString: filePathString, projectName: projectName, tempFolder: tempFolder)
+
+        var outputSRTFilePath: String?
+        whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: outputWavFilePath!) { srtFilePath in
+            outputSRTFilePath = srtFilePath
+        }
+
+        while outputSRTFilePath == nil {
+            RunLoop.current.run(mode: .default, before: .distantFuture)
+        }
+
+        // srt to fcpxml
+        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath!, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
+
+        self.outputSRTFilePath = outputSRTFilePath!
+    }
+    
+    
+    
+    
+    func download_model(model: String, completion: @escaping (Bool) -> Void) {
+        guard let url = URL(string: "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-\(model.lowercased()).bin") else {
+            completion(false)
+            return
+        }
+
+        let delegate = DownloadDelegate(model: selectedModel, progressHandler: { progress in
+            self.downloadProgress = progress
+        }, completionHandler: {
+            self.isDownloading = false
+            self.showAlert = false
+            completion(true)
+        })
+
+        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+        let task = session.downloadTask(with: url)
+
+        self.isDownloading = true
+        self.showAlert = true
+
+        task.resume()
     }
         
  
@@ -171,7 +298,6 @@ struct HomeView: View {
         task.waitUntilExit()
         let status = task.terminationStatus
         print("Task completed with status: \(status)")
-
         return wavFilePath
     }
     
@@ -180,14 +306,20 @@ struct HomeView: View {
             DispatchQueue.main.async {
                 self.startCreatingAutoCaptions = true
             }
+            let fileManager = FileManager.default
+            let applicationSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let whisperAutoCaptionsURL = applicationSupportDirectory.appendingPathComponent("Whisper Auto Captions")
+            let modelPath = whisperAutoCaptionsURL.appendingPathComponent("ggml-\(selectedModel.lowercased()).bin")
+            
             
             if let mainPath = Bundle.main.path(forResource: "main", ofType: nil),
-               let modelPath = Bundle.main.path(forResource: modelsMapping[selectedModel], ofType: "bin"),
                let selectedLanguageShortCut = languagesMapping[selectedLanguage]
             {
                 let task = Process()
                 task.launchPath = mainPath
-                task.arguments = ["-m", modelPath, "-l", selectedLanguageShortCut, "-pp", "-osrt", "-f", outputWavFilePath]
+                task.arguments = ["-m", modelPath.path, "-l", selectedLanguageShortCut, "-pp", "-osrt", "-f", outputWavFilePath]
+                
+            
                 
                 let errorPipe = Pipe()
                 let outputPipe = Pipe()
@@ -200,7 +332,6 @@ struct HomeView: View {
                 
                 let errorHandle = errorPipe.fileHandleForReading
                 let outputHandle = outputPipe.fileHandleForReading
-                
                 
                 
                 while task.isRunning || errorHandle.availableData.count > 0 {
@@ -274,19 +405,19 @@ struct HomeView: View {
     }
 
 
-    func srt_time_to_frame(srt_time: String, fps: Int) -> Int {
+    func srt_time_to_frame(srt_time: String, fps: Float) -> Int {
         // convert srt time to ms
         let ms = Int(srt_time.suffix(3))!
         let time_components = srt_time.prefix(srt_time.count - 4).split(separator: ":")
         let srt_time_ms = (Int(time_components[0])! * 3600 + Int(time_components[1])! * 60 + Int(time_components[2])!) * 1000 + ms
         // convert ms to frame
-        let frame = Int(floor(Double(srt_time_ms) / (1000.0 / Double(fps))))
+        let frame = Int(floor(Float(srt_time_ms) / (1000 / fps)))
         return frame
     }
 
 
 
-    func srt_to_fcpxml(srt_path: String, fps: Int, project_name: String, language: String) -> String  {
+    func srt_to_fcpxml(srt_path: String, fps: Float, project_name: String, language: String) -> String  {
         do {
             let srt_content = try String(contentsOfFile: srt_path, encoding: .utf8)
             let subtitles: [String] = srt_content.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n\n")
@@ -294,9 +425,9 @@ struct HomeView: View {
             // ectract total duratioin from srt
             let last_subtitle = subtitles.last!
             let total_srt_time = last_subtitle.trimmingCharacters(in: .whitespacesAndNewlines).components(separatedBy: "\n")[1].components(separatedBy: " --> ")[1]
-            let total_frame = srt_time_to_frame(srt_time: total_srt_time, fps: fps)
+            let total_frame = srt_time_to_frame(srt_time: total_srt_time, fps: Float(fps));
             let hundred_fold_total_frame = String(100 * total_frame)
-            let hundred_fold_fps = String(fps * 100)
+            let hundred_fold_fps = String(Int(fps * 100))
 
             // fcpxml
             let fcpxmlElement = XMLElement(name: "fcpxml")
@@ -548,113 +679,139 @@ struct ProcessView: View {
     @Binding var outputCaptions: String
     @Binding var projectName: String
     @Binding var outputFCPXMLFilePath: String
+    @Binding var outputSRTFilePath: String
     @Binding var isPresented: Bool
     var body: some View {
-            GeometryReader { geometry in
-                VStack {
+        GeometryReader { geometry in
+            VStack() {
+                HStack{
+                    Text("Project: \(projectName)").font(.title2)
                     Spacer()
-                    Text("Auto Captions for Project: \(projectName)").font(.system(size: 16, weight: .bold))
-                    ScrollView {
-                        Text(outputCaptions)
-                            .font(.system(size: 14, weight: .regular, design: .monospaced))
-                            .lineLimit(nil)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, -10)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                    Button(action: {
+                        self.outputCaptions = ""
+                        self.progress = 0.0
+                        self.progressPercentage = 0
+                        self.remainingTime = "00:00"
+                        self.isPresented = false
+                        self.outputSRTFilePath = ""
+                        self.outputFCPXMLFilePath = ""
+                    }) {
+                        Image(systemName: "arrow.counterclockwise")
+                        Text("Reset")
                     }
-                    .frame(width: geometry.size.width * 0.96, height: geometry.size.height * 0.6, alignment: .top)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(
-                                LinearGradient(
-                                    gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]),
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ),
-                                lineWidth: 1
-                            )
-                    )
-//                    .background(Color.white.cornerRadius(6))
                     
-                    Spacer()
-
-                        Button {
-                            //                        print("go to fcpx")
-                            backtofcpx(fcpxml_path: outputFCPXMLFilePath)
-                            self.outputCaptions = ""
-                            self.progress = 0.0
-                            self.progressPercentage = 0
-                            self.remainingTime = "00:00"
-                            self.isPresented = false
-                            
-                        } label: {
-                            HStack() {
-                                Spacer()
-                                
-                                if let imagePath = Bundle.main.path(forResource: "fcpx-icon", ofType: "png"),
-                                   let nsImage = NSImage(contentsOfFile: imagePath) {
-                                    Image(nsImage: nsImage)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: nsImage.size.width * 0.08, height: nsImage.size.height * 0.08)
-                                }
-                                
-                                
-                                
-                                Text("Click here to check auto captions in Final Cut Pro X")
-                                    .frame(width: 440)
-                                    .foregroundColor(.clear)
-                                
-                                    .overlay(
-                                        LinearGradient(gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]), startPoint: .leading, endPoint: .trailing)
-                                            .mask(Text("Click here to check auto captions in Final Cut Pro X")
-                                                .font(.system(size: 18, weight: .bold))
-                                                .foregroundColor(.white))
-                                    )
-                                
-                                Spacer()
-                                
-                            }.frame(width: geometry.size.width * 0.96)
-                        }.buttonStyle(PlainButtonStyle())
-                            .padding(EdgeInsets(top:8, leading: 0, bottom: 8, trailing:00))
-                        
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(LinearGradient(gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]), startPoint: .leading, endPoint: .trailing), lineWidth: 2)
-                            )
-                        
-                            .cornerRadius(10)
-                            .contentShape(Rectangle())
+                }.padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, -28).padding(.top, -20)
+                
+                
+                
+                ScrollView {
+                    Text(outputCaptions)
+                        .font(.title3)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.horizontal, -2)
+                        .padding(.vertical, -26)
+                        .padding()
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                }.overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(
+                            LinearGradient(
+                                gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 1
+                        )
+                )
+                .padding()
+                .padding(.bottom, -20)
+                .shadow(color: Color.gray.opacity(0.5), radius: 4, x: 0, y: 2)
+        
+                
+                HStack {
+                    Text("Download files: ").font(.title2)
+                    Button(action: {
+                        downloadFile(filePath: outputSRTFilePath)
+                    }) {
+                        Image(systemName: "square.and.arrow.down")
+                        Text("Download .srt file")
+                    }.buttonStyle(.borderedProminent).controlSize(.large)
+                        .tint(.purple)
                         .disabled(progressPercentage < 100)
-  
                     
-                    Spacer()
-
-                    LinearGradient(gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]), startPoint: .leading, endPoint: .trailing)
-                        .mask(
-                            GeometryReader { geometry in
-                                RoundedRectangle(cornerRadius: 6)
-                                    .frame(width: geometry.size.width * CGFloat(progress), height: geometry.size.height)
-                                
-                            }
-                        )
-                        .frame(width: geometry.size.width * 0.96, height: 10)
-                        .background(
-                            RoundedRectangle(cornerRadius: 6)
-                                .fill(
-                                    LinearGradient(gradient: Gradient(colors: [.orange.opacity(0.3), .red.opacity(0.3), .pink.opacity(0.3), .purple.opacity(0.3), .blue.opacity(0.3), .cyan.opacity(0.3), .green.opacity(0.3), .yellow.opacity(0.3)]), startPoint: .leading, endPoint: .trailing)
-                                )
-                        )
-
-                    Text("\(progressPercentage)% completed - \(remainingTime) remaining")
-                    Spacer()
-                
+                    Button(action: {
+                        downloadFile(filePath: outputFCPXMLFilePath)
+                    }) {
+                        Image(systemName: "square.and.arrow.down")
+                        Text("Download .fcpxml file")
+                    }.buttonStyle(.borderedProminent).controlSize(.large)
+                        .tint(.blue)
+                        .disabled(progressPercentage < 100)
+                    
+                    Button(action: {
+                        downloadFile(filePath: outputSRTFilePath)
+                        downloadFile(filePath: outputFCPXMLFilePath)
+                    }) {
+                        Image(systemName: "folder.badge.plus")
+                        Text("Download All")
+                    }.buttonStyle(.borderedProminent).controlSize(.large)
+                        .tint(.green)
+                        .disabled(progressPercentage < 100)
+                    
                 }
+                .padding().padding(.bottom, -20)
+                .frame(width: geometry.size.width,  alignment: .leading)
                 
-                .frame(width: geometry.size.width, height: geometry.size.height)
+                
+                
+                HStack {
+                    Text("Open in Final Cut Pro: ")
+                        .font(.title2)
+                    Button(action: {
+                        print("back to fcpx")
+                        backtofcpx(fcpxml_path: outputFCPXMLFilePath)
+                    }) {
+                        if let imagePath = Bundle.main.path(forResource: "fcpx-icon", ofType: "png"),
+                           let nsImage = NSImage(contentsOfFile: imagePath) {
+                            Image(nsImage: nsImage)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: nsImage.size.width * 0.05, height: nsImage.size.height * 0.05)
+                        }
+                        Text("Click here to check auto captions in Final Cut Pro X")
+                    }.buttonStyle(.borderedProminent)
+                        .controlSize(.large)
+                        .tint(.gray)
+                        .disabled(progressPercentage < 100)
+                }.padding().padding(.bottom, -20).frame(width: geometry.size.width,  alignment: .leading)
+                
+                LinearGradient(gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]), startPoint: .leading, endPoint: .trailing)
+                    .mask(
+                        GeometryReader { geometry in
+                            RoundedRectangle(cornerRadius: 6)
+                                .frame(width: geometry.size.width * CGFloat(progress), height: geometry.size.height)
+                        }
+                    )
+                
+                    .frame(height:8)
+                    .background(
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(
+                                LinearGradient(gradient: Gradient(colors: [.orange.opacity(0.3), .red.opacity(0.3), .pink.opacity(0.3), .purple.opacity(0.3), .blue.opacity(0.3), .cyan.opacity(0.3), .green.opacity(0.3), .yellow.opacity(0.3)]), startPoint: .leading, endPoint: .trailing)
+                            )
+                    ).padding().padding(.bottom, -16)
+     
+                Text("\(progressPercentage)% completed - \(remainingTime) remaining")
+    
             }
         }
+        .padding()
+    }
+    
     func backtofcpx(fcpxml_path: String) {
         let command =
         """
@@ -675,6 +832,49 @@ struct ProcessView: View {
             }
         }
     }
+    func downloadFile(filePath: String) {
+        let fileURL = URL(fileURLWithPath: filePath)
+        let downloadsURL = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask).first
+
+        guard let destinationURL = downloadsURL?.appendingPathComponent(fileURL.lastPathComponent) else {
+            return
+        }
+        
+
+        let fileManager = FileManager.default
+        var updatedDestinationURL = destinationURL
+
+        if fileManager.fileExists(atPath: updatedDestinationURL.path) {
+            let originalFileName = updatedDestinationURL.deletingPathExtension().lastPathComponent
+            let originalFileExtension = updatedDestinationURL.pathExtension
+
+            var counter = 1
+            while fileManager.fileExists(atPath: updatedDestinationURL.path) {
+                let newFileName = "\(originalFileName)_\(counter).\(originalFileExtension)"
+                updatedDestinationURL = updatedDestinationURL.deletingLastPathComponent().appendingPathComponent(newFileName)
+                counter += 1
+            }
+        }
+
+        let task = URLSession.shared.downloadTask(with: fileURL) { location, _, error in
+            guard let location = location else {
+                if let error = error {
+                    print("Download failed: \(error.localizedDescription)")
+                }
+                return
+            }
+
+            do {
+                try fileManager.moveItem(at: location, to: updatedDestinationURL)
+                print("Download completed")
+            } catch {
+                print("Failed to move downloaded file: \(error.localizedDescription)")
+            }
+        }
+
+        task.resume()
+    }
+
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -682,4 +882,5 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
 
