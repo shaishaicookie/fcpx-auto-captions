@@ -5,11 +5,11 @@
 <p align="center">Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model</p>
 
 ## TODOS
-- [ ] fix download error
+- [x] fix download error
 - [x] add model download (reduce app size)
-- [ ] add multi thread batch processing for long audio input
-- [ ] add srt language translation (add large language model or translation API)
-  
+- [x] add multi thread batch processing for long audio input
+
+
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
 
