@@ -6,6 +6,7 @@ class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     var model: String
     var progressHandler: ((Double) -> Void)?
     var completionHandler: (() -> Void)?
+    var cancelAction: (() -> Void)? // 添加取消操作的闭包
 
     init(model: String, progressHandler: ((Double) -> Void)? = nil, completionHandler: (() -> Void)? = nil) {
         self.model = model
@@ -14,7 +15,6 @@ class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
     }
 
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        // Handle downloaded file here
         let fileManager = FileManager.default
         let applicationSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         let whisperAutoCaptionsURL = applicationSupportDirectory.appendingPathComponent("Whisper Auto Captions")
@@ -26,7 +26,9 @@ class DownloadDelegate: NSObject, URLSessionDownloadDelegate {
             print("File downloaded and moved to: \(destinationURL.path)")
             completionHandler?()
         } catch {
+            try? fileManager.removeItem(at: location)
             print("Error moving file: \(error)")
+            print("到了", location)
         }
     }
 
@@ -84,13 +86,12 @@ struct HomeView: View {
     @Binding var outputFCPXMLFilePath: String
     @Binding var outputSRTFilePath: String
 
-
-    
     @State private var isDownloading = false
     @State private var downloadProgress: Double = 0.0
     @State private var showAlert = false
-    
-    
+    @State private var downloadDelegate: DownloadDelegate?
+    @State private var downloadTask: URLSessionDownloadTask?
+
     
     var body: some View {
         VStack {
@@ -120,7 +121,7 @@ struct HomeView: View {
                             }
                         }
                 }
-                
+        
                 GridRow {
                     Text("Frame Rate:")
                     TextField (
@@ -158,6 +159,7 @@ struct HomeView: View {
                         let fileManager = FileManager.default
                         let applicationSupportDirectory = try! fileManager.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
                         let whisperAutoCaptionsURL = applicationSupportDirectory.appendingPathComponent("Whisper Auto Captions")
+                        try? fileManager.createDirectory(at: whisperAutoCaptionsURL, withIntermediateDirectories: true, attributes: nil)
                         let destinationURL = whisperAutoCaptionsURL.appendingPathComponent("ggml-\(selectedModel.lowercased()).bin")
                         
                         if fileManager.fileExists(atPath: destinationURL.path) {
@@ -165,11 +167,13 @@ struct HomeView: View {
                             whisper_auto_captions()
                         } else {
                             print("File does not exist")
+                            
+                            
                             download_model(model: selectedModel.lowercased()) { success in
                                 if success {
                                     whisper_auto_captions()
                                 } else {
-                                    // Handle download failure
+                        
                                 }
                             }
                         }
@@ -188,10 +192,11 @@ struct HomeView: View {
             }
         }.alert(isPresented: $showAlert) {
             Alert(
-                title: Text("Downloading \(selectedModel)"),
-                message: Text(String(format: "Download progress: %.0f%%", downloadProgress * 100)),
+                title: Text("Downloading \(selectedModel) Model"),
+                message: Text(String(format: "Progress: %.0f%%", downloadProgress * 100)),
                 primaryButton: .destructive(Text("Cancel"), action: {
                     // Cancel the download task
+                    self.downloadDelegate?.cancelAction?()
                     self.isDownloading = false
                     self.showAlert = false
                 }),
@@ -250,47 +255,7 @@ struct HomeView: View {
         }
     }
 
-    
-//
-//    func whisper_auto_captions() {
-//        self.startCreatingAutoCaptions = true
-//        let filePathString = fileURL!.path
-//        let tempFolder = NSTemporaryDirectory()
-//
-//        // convert mp3 to 16kHz wav file
-//        let outputWavFilePath = mp3_to_wav(filePathString: filePathString, projectName: projectName, tempFolder: tempFolder)
-//
-//        let splitedWavFilesPaths = spilt_wav(inputFilePath: outputWavFilePath)
-//
-//        self.totalBatch = splitedWavFilesPaths.count
-//
-//        var srtFiles = [String]()
-//
-//        for (b, splitedWavFilePath) in splitedWavFilesPaths.enumerated() {
-//            self.currentBatch = b + 1
-//            var outputSplitSRTFilePath: String?
-//            whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: splitedWavFilePath) { srtFilePath in
-//                outputSplitSRTFilePath = srtFilePath
-//            }
-//
-//            while outputSplitSRTFilePath == nil {
-//                RunLoop.current.run(mode: .default, before: .distantFuture)
-//            }
-//            srtFiles.append(outputSplitSRTFilePath!)
-//        }
-//
-//        print("srt_files是这些", srtFiles)
-//
-//        let outputSRTFilePath = merge_srt(srt_files: srtFiles)
-//        // srt to fcpxml
-//        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
-//
-//        self.outputSRTFilePath = outputSRTFilePath
-//    }
-//
 
-
-    
     func spilt_wav(inputFilePath: String) -> [String] {
         var result: [String] = []
         // Append file:// to the beginning
@@ -379,32 +344,37 @@ struct HomeView: View {
         return merged_srt_path
     }
     
-    
     func download_model(model: String, completion: @escaping (Bool) -> Void) {
         guard let url = URL(string: "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-\(model.lowercased()).bin") else {
             completion(false)
             return
         }
 
-        let delegate = DownloadDelegate(model: selectedModel, progressHandler: { progress in
+        self.downloadDelegate = DownloadDelegate(model: selectedModel, progressHandler: { progress in
             self.downloadProgress = progress
         }, completionHandler: {
             self.isDownloading = false
             self.showAlert = false
             completion(true)
         })
+        
 
-        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+        self.downloadDelegate?.cancelAction = {
+            self.downloadProgress = 0.0
+            self.downloadTask?.cancel()
+        }
+    
+        let session = URLSession(configuration: .default, delegate: self.downloadDelegate, delegateQueue: nil)
         let task = session.downloadTask(with: url)
+        self.downloadTask = task
 
         self.isDownloading = true
         self.showAlert = true
 
         task.resume()
     }
-        
- 
     
+ 
     func mp3_to_wav(filePathString: String, projectName: String, tempFolder: String) -> String {
         var wavFileName = projectName + ".wav"
         var wavFilePath = tempFolder + wavFileName
@@ -512,7 +482,6 @@ struct HomeView: View {
                 _ = String(data: outputData, encoding: .utf8)
 //                    print("Standard output: \(output)")
                 
-                print("My process is done!")
                 
             }
             
@@ -995,7 +964,8 @@ struct ProcessView: View {
                 }
                 return
             }
-
+                
+    
             do {
                 try fileManager.moveItem(at: location, to: updatedDestinationURL)
                 print("Download completed")
