@@ -200,7 +200,6 @@ struct HomeView: View {
         }
     }
     
-    
     func whisper_auto_captions() {
         self.startCreatingAutoCaptions = true
         let filePathString = fileURL!.path
@@ -215,29 +214,80 @@ struct HomeView: View {
 
         var srtFiles = [String]()
 
-        for (b, splitedWavFilePath) in splitedWavFilesPaths.enumerated() {
-            self.currentBatch = b + 1
-            var outputSplitSRTFilePath: String?
-            whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: splitedWavFilePath) { srtFilePath in
-                outputSplitSRTFilePath = srtFilePath
+        DispatchQueue.global(qos: .background).async {
+            let group = DispatchGroup()
+
+            for (b, splitedWavFilePath) in splitedWavFilesPaths.enumerated() {
+                self.currentBatch = b + 1
+                var outputSplitSRTFilePath: String?
+                group.enter()
+                whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: splitedWavFilePath) { srtFilePath in
+                    outputSplitSRTFilePath = srtFilePath
+                    group.leave()
+                }
+
+                group.wait()
+
+                if let srtFilePath = outputSplitSRTFilePath {
+                    DispatchQueue.main.async {
+                        srtFiles.append(srtFilePath)
+                        self.progress = 0.0
+                        self.progressPercentage = 0
+                    }
+                }
             }
 
-            while outputSplitSRTFilePath == nil {
-                RunLoop.current.run(mode: .default, before: .distantFuture)
+            DispatchQueue.main.async {
+                self.progress = 1.0
+                self.progressPercentage = 100
+
+                let outputSRTFilePath = merge_srt(srt_files: srtFiles)
+                // srt to fcpxml
+                self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
+
+                self.outputSRTFilePath = outputSRTFilePath
             }
-            srtFiles.append(outputSplitSRTFilePath!)
         }
-
-        print("srt_files是这些", srtFiles)
-
-        let outputSRTFilePath = merge_srt(srt_files: srtFiles)
-        // srt to fcpxml
-        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
-
-        self.outputSRTFilePath = outputSRTFilePath
     }
+
     
-    
+//
+//    func whisper_auto_captions() {
+//        self.startCreatingAutoCaptions = true
+//        let filePathString = fileURL!.path
+//        let tempFolder = NSTemporaryDirectory()
+//
+//        // convert mp3 to 16kHz wav file
+//        let outputWavFilePath = mp3_to_wav(filePathString: filePathString, projectName: projectName, tempFolder: tempFolder)
+//
+//        let splitedWavFilesPaths = spilt_wav(inputFilePath: outputWavFilePath)
+//
+//        self.totalBatch = splitedWavFilesPaths.count
+//
+//        var srtFiles = [String]()
+//
+//        for (b, splitedWavFilePath) in splitedWavFilesPaths.enumerated() {
+//            self.currentBatch = b + 1
+//            var outputSplitSRTFilePath: String?
+//            whisper_cpp(selectedModel: selectedModel, selectedLanguage: selectedLanguage, outputWavFilePath: splitedWavFilePath) { srtFilePath in
+//                outputSplitSRTFilePath = srtFilePath
+//            }
+//
+//            while outputSplitSRTFilePath == nil {
+//                RunLoop.current.run(mode: .default, before: .distantFuture)
+//            }
+//            srtFiles.append(outputSplitSRTFilePath!)
+//        }
+//
+//        print("srt_files是这些", srtFiles)
+//
+//        let outputSRTFilePath = merge_srt(srt_files: srtFiles)
+//        // srt to fcpxml
+//        self.outputFCPXMLFilePath = srt_to_fcpxml(srt_path: outputSRTFilePath, fps: Float(fps)!, project_name: projectName, language: selectedLanguage)
+//
+//        self.outputSRTFilePath = outputSRTFilePath
+//    }
+//
 
 
     
@@ -440,6 +490,9 @@ struct HomeView: View {
                     if !outputData.isEmpty {
                         if let outputCaptions = String(data: outputData, encoding: .utf8) {
                             DispatchQueue.main.async {
+                                self.progress = progress
+                                self.progressPercentage = progressPercentage
+                                self.remainingTime = remainingTime
                                 self.outputCaptions += outputCaptions
                             }
                         }
@@ -821,7 +874,7 @@ struct ProcessView: View {
                         Text("Download .srt file")
                     }.buttonStyle(.borderedProminent).controlSize(.large)
                         .tint(.purple)
-                        .disabled(self.currentBatch == self.totalBatch && progressPercentage < 100)
+                        .disabled(self.currentBatch != self.totalBatch || self.progressPercentage < 100)
                     
                     Button(action: {
                         downloadFile(filePath: outputFCPXMLFilePath)
@@ -830,7 +883,7 @@ struct ProcessView: View {
                         Text("Download .fcpxml file")
                     }.buttonStyle(.borderedProminent).controlSize(.large)
                         .tint(.blue)
-                        .disabled(self.currentBatch == self.totalBatch && progressPercentage < 100)
+                        .disabled(self.currentBatch != self.totalBatch || self.progressPercentage < 100)
                     
                     Button(action: {
                         downloadFile(filePath: outputSRTFilePath)
@@ -840,7 +893,7 @@ struct ProcessView: View {
                         Text("Download All")
                     }.buttonStyle(.borderedProminent).controlSize(.large)
                         .tint(.green)
-                        .disabled(self.currentBatch == self.totalBatch && progressPercentage < 100)
+                        .disabled(self.currentBatch != self.totalBatch || self.progressPercentage < 100 || self.currentBatch == self.totalBatch - 1)
                     
                 }
                 .padding().padding(.bottom, -20)
@@ -866,7 +919,7 @@ struct ProcessView: View {
                     }.buttonStyle(.borderedProminent)
                         .controlSize(.large)
                         .tint(.gray)
-                        .disabled(self.currentBatch == self.totalBatch && progressPercentage < 100)
+                        .disabled(self.currentBatch != self.totalBatch || self.progressPercentage < 100)
                 }.padding().padding(.bottom, -20).frame(width: geometry.size.width,  alignment: .leading)
                 
                 LinearGradient(gradient: Gradient(colors: [.orange, .red, .pink, .purple, .blue, .cyan, .green, .yellow]), startPoint: .leading, endPoint: .trailing)
@@ -884,7 +937,7 @@ struct ProcessView: View {
                                 LinearGradient(gradient: Gradient(colors: [.orange.opacity(0.3), .red.opacity(0.3), .pink.opacity(0.3), .purple.opacity(0.3), .blue.opacity(0.3), .cyan.opacity(0.3), .green.opacity(0.3), .yellow.opacity(0.3)]), startPoint: .leading, endPoint: .trailing)
                             )
                     ).padding().padding(.bottom, -16)
-                Text("Batch (\(currentBatch == -100000 ? "···" : String(currentBatch)) / \(totalBatch == 100000 ? "···" : String(totalBatch))): \(progressPercentage)% completed - \(remainingTime) remaining")
+                Text("Batch (\(self.currentBatch == -100000 ? "···" : String(self.currentBatch)) / \(totalBatch == 100000 ? "···" : String(totalBatch))): \(progressPercentage)% completed - \(remainingTime) remaining")
     
             }
         }
