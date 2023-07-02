@@ -8,7 +8,9 @@
 - [x] fix download error
 - [x] add model download (reduce app size)
 - [x] add multi thread batch processing for long audio input
-- [ ] fix UI update problem
+- [x] fix UI update problem
+- [ ] fix button disable order
+- [ ] stable whisper cpp
 
 
 ## Demo Video
