@@ -22,14 +22,15 @@ https://whisperautocaptions.com/
 
 
 ## Download
-[Apple Chip](https://drive.google.com/file/d/1qaNZb7LKtxKjMkoMdEoE6xOks4n36fNR/view?usp=sharing) \
-[Intel Chip](https://drive.google.com/file/d/1Sshl-sc_QW1WnSBd8H3Dvm8nHedwyeiW/view?usp=sharing)
+[Apple Chip](https://drive.google.com/file/d/1G0WYNk5mJMcE0cG7B2y_uBO4VaHYsCxY/view?usp=sharing) \
+[Intel Chip](https://drive.google.com/file/d/1ugXyDuDCuc_mLv1RqoUyriBBe4Fpvi_Z/view?usp=sharing)
 
 ## Features
 * Accurate transcription in over 90 languages
 * Live output & Progress bar
 * Send fcpxml directly to Final Cut Pro X
 * Support downloading .srt files for seamless editing in Adobe Premiere Pro, DaVinci Resolve & Sony Vegas （New Features !)
+* Download Model (New Features)
 
 
 
