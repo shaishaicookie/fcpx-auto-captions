@@ -10,6 +10,7 @@
 - [x] add multi thread batch processing for long audio input
 - [x] fix UI update problem
 - [x] fix button disable order
+- [x] add prompt to Chinese (Simplified / Traditional)
 - [ ] stable whisper cpp
 
 
