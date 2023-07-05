@@ -23,7 +23,8 @@ https://whisperautocaptions.com/
 
 ## Download
 [Apple Chip](https://drive.google.com/file/d/1G0WYNk5mJMcE0cG7B2y_uBO4VaHYsCxY/view?usp=sharing) \
-[Intel Chip](https://drive.google.com/file/d/1ugXyDuDCuc_mLv1RqoUyriBBe4Fpvi_Z/view?usp=sharing)
+[Intel Chip](https://drive.google.com/file/d/1ugXyDuDCuc_mLv1RqoUyriBBe4Fpvi_Z/view?usp=sharing) \
+[Download from China](https://vu3mopq3x8.feishu.cn/docx/Go9IdrSkpochcoxpgHfcl7nhn2d)
 
 ## Features
 * Accurate transcription in over 90 languages
