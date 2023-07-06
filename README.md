@@ -4,6 +4,8 @@
 <h1 align="center">Whisper Auto Captions</h1>
 <p align="center">Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model</p>
 
+## Demo 
+
 
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
