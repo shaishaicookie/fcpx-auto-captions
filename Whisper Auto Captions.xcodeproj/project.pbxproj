@@ -7,39 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D03D5A6729FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */; };
-		D03D5A6929FE70AD003BD609 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03D5A6829FE70AD003BD609 /* ContentView.swift */; };
-		D03D5A6B29FE70AE003BD609 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A6A29FE70AE003BD609 /* Assets.xcassets */; };
-		D03D5A6E29FE70AE003BD609 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */; };
-		D03D5A7D29FE7161003BD609 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7B29FE7161003BD609 /* ffmpeg */; };
-		D03D5A8229FE71A9003BD609 /* ggml-tiny.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */; };
-		D03D5A8329FE71A9003BD609 /* ggml-small.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7629FE70F4003BD609 /* ggml-small.bin */; };
-		D03D5A8429FE71A9003BD609 /* ggml-base.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7729FE70FE003BD609 /* ggml-base.bin */; };
-		D03D5A8529FE71A9003BD609 /* ggml-large.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7829FE7155003BD609 /* ggml-large.bin */; };
-		D03D5A8629FE71A9003BD609 /* fcpx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7A29FE7158003BD609 /* fcpx-icon.png */; };
-		D03D5A8729FE71A9003BD609 /* ggml-medium.bin in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A7E29FE7196003BD609 /* ggml-medium.bin */; };
-		D03D5A8829FE71A9003BD609 /* main in Resources */ = {isa = PBXBuildFile; fileRef = D03D5A8129FE71A9003BD609 /* main */; };
+		D06D32272A418DFA005F59B8 /* Whisper_Auto_CaptionsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D32262A418DFA005F59B8 /* Whisper_Auto_CaptionsApp.swift */; };
+		D06D32292A418DFA005F59B8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06D32282A418DFA005F59B8 /* ContentView.swift */; };
+		D06D322B2A418DFB005F59B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06D322A2A418DFB005F59B8 /* Assets.xcassets */; };
+		D06D322E2A418DFB005F59B8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06D322D2A418DFB005F59B8 /* Preview Assets.xcassets */; };
+		D0F287212A46D9B5006B8C16 /* fcpx-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D0F2871E2A46D9B5006B8C16 /* fcpx-icon.png */; };
+		D0F287222A46D9B5006B8C16 /* ffmpeg in Resources */ = {isa = PBXBuildFile; fileRef = D0F2871F2A46D9B5006B8C16 /* ffmpeg */; };
+		D0F8863B2A5085AB00394A77 /* main in Resources */ = {isa = PBXBuildFile; fileRef = D0F8863A2A5085AB00394A77 /* main */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper Auto Captions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whisper_Auto_CaptionsApp.swift; sourceTree = "<group>"; };
-		D03D5A6829FE70AD003BD609 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		D03D5A6A29FE70AE003BD609 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		D03D5A6F29FE70AE003BD609 /* Whisper_Auto_Captions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Whisper_Auto_Captions.entitlements; sourceTree = "<group>"; };
-		D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-tiny.bin"; sourceTree = "<group>"; };
-		D03D5A7629FE70F4003BD609 /* ggml-small.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-small.bin"; sourceTree = "<group>"; };
-		D03D5A7729FE70FE003BD609 /* ggml-base.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-base.bin"; sourceTree = "<group>"; };
-		D03D5A7829FE7155003BD609 /* ggml-large.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-large.bin"; sourceTree = "<group>"; };
-		D03D5A7A29FE7158003BD609 /* fcpx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fcpx-icon.png"; path = "../../../fcpx-icon.png"; sourceTree = "<group>"; };
-		D03D5A7B29FE7161003BD609 /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
-		D03D5A7E29FE7196003BD609 /* ggml-medium.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = "ggml-medium.bin"; sourceTree = "<group>"; };
-		D03D5A8129FE71A9003BD609 /* main */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = main; sourceTree = "<group>"; };
+		D06D32232A418DFA005F59B8 /* Whisper Auto Captions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Whisper Auto Captions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06D32262A418DFA005F59B8 /* Whisper_Auto_CaptionsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Whisper_Auto_CaptionsApp.swift; sourceTree = "<group>"; };
+		D06D32282A418DFA005F59B8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D06D322A2A418DFB005F59B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D06D322D2A418DFB005F59B8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D06D322F2A418DFB005F59B8 /* Whisper_Auto_Captions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Whisper_Auto_Captions.entitlements; sourceTree = "<group>"; };
+		D0F2871E2A46D9B5006B8C16 /* fcpx-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fcpx-icon.png"; sourceTree = "<group>"; };
+		D0F2871F2A46D9B5006B8C16 /* ffmpeg */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ffmpeg; sourceTree = "<group>"; };
+		D0F8863A2A5085AB00394A77 /* main */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = main; path = "../../../Downloads/whisper.cpp-master/main"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D03D5A6029FE70AD003BD609 /* Frameworks */ = {
+		D06D32202A418DFA005F59B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -49,46 +39,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D03D5A5A29FE70AD003BD609 = {
+		D06D321A2A418DFA005F59B8 = {
 			isa = PBXGroup;
 			children = (
-				D03D5A6529FE70AD003BD609 /* Whisper Auto Captions */,
-				D03D5A6429FE70AD003BD609 /* Products */,
+				D06D32252A418DFA005F59B8 /* Whisper Auto Captions */,
+				D06D32242A418DFA005F59B8 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D03D5A6429FE70AD003BD609 /* Products */ = {
+		D06D32242A418DFA005F59B8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */,
+				D06D32232A418DFA005F59B8 /* Whisper Auto Captions.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D03D5A6529FE70AD003BD609 /* Whisper Auto Captions */ = {
+		D06D32252A418DFA005F59B8 /* Whisper Auto Captions */ = {
 			isa = PBXGroup;
 			children = (
-				D03D5A7A29FE7158003BD609 /* fcpx-icon.png */,
-				D03D5A7B29FE7161003BD609 /* ffmpeg */,
-				D03D5A7729FE70FE003BD609 /* ggml-base.bin */,
-				D03D5A7829FE7155003BD609 /* ggml-large.bin */,
-				D03D5A7E29FE7196003BD609 /* ggml-medium.bin */,
-				D03D5A7629FE70F4003BD609 /* ggml-small.bin */,
-				D03D5A7529FE70DF003BD609 /* ggml-tiny.bin */,
-				D03D5A8129FE71A9003BD609 /* main */,
-				D03D5A6629FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift */,
-				D03D5A6829FE70AD003BD609 /* ContentView.swift */,
-				D03D5A6A29FE70AE003BD609 /* Assets.xcassets */,
-				D03D5A6F29FE70AE003BD609 /* Whisper_Auto_Captions.entitlements */,
-				D03D5A6C29FE70AE003BD609 /* Preview Content */,
+				D0F8863A2A5085AB00394A77 /* main */,
+				D0F2871E2A46D9B5006B8C16 /* fcpx-icon.png */,
+				D0F2871F2A46D9B5006B8C16 /* ffmpeg */,
+				D06D32262A418DFA005F59B8 /* Whisper_Auto_CaptionsApp.swift */,
+				D06D32282A418DFA005F59B8 /* ContentView.swift */,
+				D06D322A2A418DFB005F59B8 /* Assets.xcassets */,
+				D06D322F2A418DFB005F59B8 /* Whisper_Auto_Captions.entitlements */,
+				D06D322C2A418DFB005F59B8 /* Preview Content */,
 			);
 			path = "Whisper Auto Captions";
 			sourceTree = "<group>";
 		};
-		D03D5A6C29FE70AE003BD609 /* Preview Content */ = {
+		D06D322C2A418DFB005F59B8 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				D03D5A6D29FE70AE003BD609 /* Preview Assets.xcassets */,
+				D06D322D2A418DFB005F59B8 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
@@ -96,13 +81,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D03D5A6229FE70AD003BD609 /* Whisper Auto Captions */ = {
+		D06D32222A418DFA005F59B8 /* Whisper Auto Captions */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D03D5A7229FE70AE003BD609 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */;
+			buildConfigurationList = D06D32322A418DFB005F59B8 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */;
 			buildPhases = (
-				D03D5A5F29FE70AD003BD609 /* Sources */,
-				D03D5A6029FE70AD003BD609 /* Frameworks */,
-				D03D5A6129FE70AD003BD609 /* Resources */,
+				D06D321F2A418DFA005F59B8 /* Sources */,
+				D06D32202A418DFA005F59B8 /* Frameworks */,
+				D06D32212A418DFA005F59B8 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -110,25 +95,25 @@
 			);
 			name = "Whisper Auto Captions";
 			productName = "Whisper Auto Captions";
-			productReference = D03D5A6329FE70AD003BD609 /* Whisper Auto Captions.app */;
+			productReference = D06D32232A418DFA005F59B8 /* Whisper Auto Captions.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D03D5A5B29FE70AD003BD609 /* Project object */ = {
+		D06D321B2A418DFA005F59B8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					D03D5A6229FE70AD003BD609 = {
+					D06D32222A418DFA005F59B8 = {
 						CreatedOnToolsVersion = 14.3;
 					};
 				};
 			};
-			buildConfigurationList = D03D5A5E29FE70AD003BD609 /* Build configuration list for PBXProject "Whisper Auto Captions" */;
+			buildConfigurationList = D06D321E2A418DFA005F59B8 /* Build configuration list for PBXProject "Whisper Auto Captions" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -136,50 +121,45 @@
 				en,
 				Base,
 			);
-			mainGroup = D03D5A5A29FE70AD003BD609;
-			productRefGroup = D03D5A6429FE70AD003BD609 /* Products */;
+			mainGroup = D06D321A2A418DFA005F59B8;
+			productRefGroup = D06D32242A418DFA005F59B8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D03D5A6229FE70AD003BD609 /* Whisper Auto Captions */,
+				D06D32222A418DFA005F59B8 /* Whisper Auto Captions */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D03D5A6129FE70AD003BD609 /* Resources */ = {
+		D06D32212A418DFA005F59B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D03D5A6E29FE70AE003BD609 /* Preview Assets.xcassets in Resources */,
-				D03D5A8729FE71A9003BD609 /* ggml-medium.bin in Resources */,
-				D03D5A8329FE71A9003BD609 /* ggml-small.bin in Resources */,
-				D03D5A8429FE71A9003BD609 /* ggml-base.bin in Resources */,
-				D03D5A8629FE71A9003BD609 /* fcpx-icon.png in Resources */,
-				D03D5A8829FE71A9003BD609 /* main in Resources */,
-				D03D5A8529FE71A9003BD609 /* ggml-large.bin in Resources */,
-				D03D5A7D29FE7161003BD609 /* ffmpeg in Resources */,
-				D03D5A8229FE71A9003BD609 /* ggml-tiny.bin in Resources */,
-				D03D5A6B29FE70AE003BD609 /* Assets.xcassets in Resources */,
+				D0F8863B2A5085AB00394A77 /* main in Resources */,
+				D06D322E2A418DFB005F59B8 /* Preview Assets.xcassets in Resources */,
+				D0F287212A46D9B5006B8C16 /* fcpx-icon.png in Resources */,
+				D06D322B2A418DFB005F59B8 /* Assets.xcassets in Resources */,
+				D0F287222A46D9B5006B8C16 /* ffmpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D03D5A5F29FE70AD003BD609 /* Sources */ = {
+		D06D321F2A418DFA005F59B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D03D5A6929FE70AD003BD609 /* ContentView.swift in Sources */,
-				D03D5A6729FE70AD003BD609 /* Whisper_Auto_CaptionsApp.swift in Sources */,
+				D06D32292A418DFA005F59B8 /* ContentView.swift in Sources */,
+				D06D32272A418DFA005F59B8 /* Whisper_Auto_CaptionsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		D03D5A7029FE70AE003BD609 /* Debug */ = {
+		D06D32302A418DFB005F59B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -213,9 +193,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -240,7 +220,7 @@
 			};
 			name = Debug;
 		};
-		D03D5A7129FE70AE003BD609 /* Release */ = {
+		D06D32312A418DFB005F59B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -274,9 +254,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -288,14 +268,13 @@
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		D03D5A7329FE70AE003BD609 /* Debug */ = {
+		D06D32332A418DFB005F59B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -308,18 +287,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Whisper Auto Captions/Preview Content\"";
 				DEVELOPMENT_TEAM = VFBY2CCN3N;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "shaishaicookie.Whisper-Auto-Captions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -328,7 +303,7 @@
 			};
 			name = Debug;
 		};
-		D03D5A7429FE70AE003BD609 /* Release */ = {
+		D06D32342A418DFB005F59B8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -341,18 +316,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Whisper Auto Captions/Preview Content\"";
 				DEVELOPMENT_TEAM = VFBY2CCN3N;
-				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.video";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "shaishaicookie.Whisper-Auto-Captions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -364,25 +335,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D03D5A5E29FE70AD003BD609 /* Build configuration list for PBXProject "Whisper Auto Captions" */ = {
+		D06D321E2A418DFA005F59B8 /* Build configuration list for PBXProject "Whisper Auto Captions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D03D5A7029FE70AE003BD609 /* Debug */,
-				D03D5A7129FE70AE003BD609 /* Release */,
+				D06D32302A418DFB005F59B8 /* Debug */,
+				D06D32312A418DFB005F59B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D03D5A7229FE70AE003BD609 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */ = {
+		D06D32322A418DFB005F59B8 /* Build configuration list for PBXNativeTarget "Whisper Auto Captions" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D03D5A7329FE70AE003BD609 /* Debug */,
-				D03D5A7429FE70AE003BD609 /* Release */,
+				D06D32332A418DFB005F59B8 /* Debug */,
+				D06D32342A418DFB005F59B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D03D5A5B29FE70AD003BD609 /* Project object */;
+	rootObject = D06D321B2A418DFA005F59B8 /* Project object */;
 }

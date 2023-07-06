@@ -2,7 +2,7 @@
 //  Whisper_Auto_CaptionsApp.swift
 //  Whisper Auto Captions
 //
-//  Created by Sherry Wang on 30/4/2023.
+//  Created by Sherry Wang on 20/6/2023.
 //
 
 import SwiftUI
