@@ -5,7 +5,7 @@
 <p align="center">Auto Captions for Final Cut Pro Powered by OpenAI's Whisper Model</p>
 
 ## Demo 
-
+<img src="demo.gif">
 
 ## Demo Video
 Youtube: https://youtu.be/2_QOACyuZIk
