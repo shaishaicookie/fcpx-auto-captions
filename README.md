@@ -8,8 +8,8 @@
 <img src="demo.gif">
 
 ## Demo Video
-Youtube: https://youtu.be/2_QOACyuZIk
-
+Youtube: [https://youtu.be/2_QOACyuZIk
+](https://youtu.be/n1qMG87aJcw)
 ## Website
 https://whisperautocaptions.com/
 
