@@ -14,7 +14,7 @@ Youtube: [https://youtu.be/2_QOACyuZIk
 https://whisperautocaptions.com/
 
 
-## Downloa
+## Download
 * [Apple Chip](https://drive.google.com/file/d/1RGnyiPTWGtHn8hSHElsB72gZtx9nSAXQ/view?usp=sharing)
 * [Intel Chip](https://drive.google.com/file/d/1AgU3_XNimv1Z_pE5VeFYyhG9O_eFaina/view?usp=sharing) 
 * [Download from China](https://vu3mopq3x8.feishu.cn/docx/Go9IdrSkpochcoxpgHfcl7nhn2d)
