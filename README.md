@@ -7,6 +7,12 @@
 ## Demo 
 <img src="demo.gif">
 
+
+## TODOS
+- [ ] fix bugs
+- [ ] publish on App Store (Free App)
+- [ ] stable whisper cpp
+
 ## Demo Video
 Youtube: [https://youtu.be/2_QOACyuZIk
 ](https://youtu.be/n1qMG87aJcw)
@@ -27,14 +33,7 @@ https://whisperautocaptions.com/
 * Download Model (New Features)
 
 
-## TODOS
-- [x] fix download error
-- [x] add model download (reduce app size)
-- [x] add multi thread batch processing for long audio input
-- [x] fix UI update problem
-- [x] fix button disable order
-- [x] add prompt to Chinese (Simplified / Traditional)
-- [ ] stable whisper cpp
+
 
 
 
