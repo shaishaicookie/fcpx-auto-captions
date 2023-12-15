@@ -30,8 +30,6 @@ https://whisperautocaptions.com/
 * Live output & Progress bar
 * Send fcpxml directly to Final Cut Pro X
 * Support downloading .srt files for seamless editing in Adobe Premiere Pro, DaVinci Resolve & Sony Vegas （New Features !)
-* Download Model (New Features)
-
 
 
 
