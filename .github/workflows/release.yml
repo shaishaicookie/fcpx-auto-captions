@@ -1,0 +1,304 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  APP_NAME: "Whisper Auto Captions"
+  SCHEME: "Whisper Auto Captions"
+  PROJECT: "Whisper Auto Captions.xcodeproj"
+
+jobs:
+  build:
+    runs-on: macos-14
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      dmg_name: ${{ steps.dmg.outputs.dmg_name }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      - name: Determine version
+        id: version
+        env:
+          INPUT_VERSION: ${{ github.event.inputs.version }}
+          GIT_REF: ${{ github.ref }}
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="$INPUT_VERSION"
+          else
+            VERSION="${GIT_REF#refs/tags/v}"
+          fi
+          # Validate version format (x.y.z)
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Error: Invalid version format: $VERSION"
+            exit 1
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Update version in project
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # Update marketing version
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $VERSION" \
+            "$APP_NAME/Info.plist" 2>/dev/null || \
+          /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string $VERSION" \
+            "$APP_NAME/Info.plist"
+
+      - name: Download Universal FFmpeg
+        run: |
+          # Download arm64 and Intel FFmpeg binaries
+          curl -L -o /tmp/ffmpeg-arm64.zip "https://ffmpeg.martin-riedl.de/redirect/latest/macos/arm64/release/ffmpeg.zip"
+          curl -L -o /tmp/ffmpeg-intel.zip "https://ffmpeg.martin-riedl.de/redirect/latest/macos/amd64/release/ffmpeg.zip"
+
+          # Extract binaries
+          unzip -o /tmp/ffmpeg-arm64.zip -d /tmp/arm64
+          unzip -o /tmp/ffmpeg-intel.zip -d /tmp/intel
+
+          # Create Universal binary with lipo
+          lipo -create /tmp/arm64/ffmpeg /tmp/intel/ffmpeg -output "$APP_NAME/ffmpeg"
+
+          # Verify Universal binary
+          file "$APP_NAME/ffmpeg"
+
+          # Clean up
+          rm -rf /tmp/ffmpeg-*.zip /tmp/arm64 /tmp/intel
+
+      - name: Resolve Swift packages
+        run: |
+          xcodebuild -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -resolvePackageDependencies
+
+      - name: Build Universal app
+        run: |
+          xcodebuild archive \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath "./build/$APP_NAME.xcarchive" \
+            ARCHS="x86_64 arm64" \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="-" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Export app
+        run: |
+          mkdir -p "./build/Export"
+          cp -R "./build/$APP_NAME.xcarchive/Products/Applications/$APP_NAME.app" \
+            "./build/Export/"
+
+      - name: Ad-hoc sign app and bundled binaries
+        run: |
+          # Remove any existing signatures and re-sign
+          APP_PATH="./build/Export/$APP_NAME.app"
+
+          # Sign bundled binaries first
+          codesign --force --deep --sign - "$APP_PATH/Contents/Resources/ffmpeg" || true
+          codesign --force --deep --sign - "$APP_PATH/Contents/Resources/whisper-cli" || true
+
+          # Sign the app
+          codesign --force --deep --sign - "$APP_PATH"
+
+      - name: Install create-dmg
+        run: |
+          brew install create-dmg
+
+      - name: Create DMG
+        id: dmg
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          DMG_NAME="${APP_NAME// /.}-$VERSION-Universal.dmg"
+
+          # Create DMG with app icon and background
+          create-dmg \
+            --volname "$APP_NAME" \
+            --window-pos 200 120 \
+            --window-size 600 400 \
+            --icon-size 100 \
+            --icon "$APP_NAME.app" 150 190 \
+            --hide-extension "$APP_NAME.app" \
+            --app-drop-link 450 185 \
+            "./build/$DMG_NAME" \
+            "./build/Export/$APP_NAME.app" || true
+
+          # If create-dmg fails, create a simple DMG
+          if [ ! -f "./build/$DMG_NAME" ]; then
+            hdiutil create -volname "$APP_NAME" \
+              -srcfolder "./build/Export" \
+              -ov -format UDZO \
+              "./build/$DMG_NAME"
+          fi
+
+          echo "dmg_name=$DMG_NAME" >> $GITHUB_OUTPUT
+          ls -la "./build/"
+
+      - name: Setup Sparkle tools
+        run: |
+          # Download Sparkle release
+          SPARKLE_VERSION="2.8.1"
+          curl -L -o sparkle.tar.xz \
+            "https://github.com/sparkle-project/Sparkle/releases/download/${SPARKLE_VERSION}/Sparkle-${SPARKLE_VERSION}.tar.xz"
+          mkdir -p sparkle
+          tar -xf sparkle.tar.xz -C sparkle
+          ls -la sparkle/bin/
+
+      - name: Sign update with Sparkle EdDSA
+        if: ${{ env.HAS_SPARKLE_KEY == 'true' }}
+        env:
+          HAS_SPARKLE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY != '' }}
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+          DMG_NAME: ${{ steps.dmg.outputs.dmg_name }}
+        run: |
+          # Write private key to temp file
+          echo "$SPARKLE_PRIVATE_KEY" > /tmp/sparkle_private_key
+
+          # Sign the DMG
+          SIGNATURE=$(./sparkle/bin/sign_update "./build/$DMG_NAME" -f /tmp/sparkle_private_key)
+          echo "SPARKLE_SIGNATURE=$SIGNATURE" >> $GITHUB_ENV
+
+          # Clean up
+          rm /tmp/sparkle_private_key
+
+          echo "Sparkle signature generated"
+
+      - name: Generate appcast.xml
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          DMG_NAME: ${{ steps.dmg.outputs.dmg_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          DMG_SIZE=$(stat -f%z "./build/$DMG_NAME")
+          DOWNLOAD_URL="https://github.com/$REPO/releases/download/v${VERSION}/${DMG_NAME}"
+          PUB_DATE=$(date -R)
+
+          # Get signature if available
+          # sign_update outputs a full attribute string including length. The
+          # enclosure already has length, so keep only Sparkle's signature attr.
+          SIGNATURE="${SPARKLE_SIGNATURE:-}"
+          SIGNATURE_ATTR=""
+          if [ -n "$SIGNATURE" ]; then
+            SIGNATURE_ATTR=$(printf '%s' "$SIGNATURE" | sed -E 's/[[:space:]]+length="[^"]*"//g')
+          fi
+
+          cat > "./build/appcast.xml" << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+            <channel>
+              <title>$APP_NAME</title>
+              <link>https://github.com/$REPO</link>
+              <description>Most recent changes with links to updates.</description>
+              <language>en</language>
+              <item>
+                <title>Version ${VERSION}</title>
+                <pubDate>${PUB_DATE}</pubDate>
+                <sparkle:version>${VERSION}</sparkle:version>
+                <sparkle:shortVersionString>${VERSION}</sparkle:shortVersionString>
+                <sparkle:minimumSystemVersion>13.0</sparkle:minimumSystemVersion>
+                <enclosure
+                  url="${DOWNLOAD_URL}"
+                  length="${DMG_SIZE}"
+                  type="application/octet-stream"
+                  ${SIGNATURE_ATTR}
+                />
+              </item>
+            </channel>
+          </rss>
+          EOF
+
+          echo "Generated appcast.xml:"
+          cat "./build/appcast.xml"
+          xmllint --noout "./build/appcast.xml"
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dmg
+          path: ./build/${{ steps.dmg.outputs.dmg_name }}
+
+      - name: Upload appcast artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: appcast
+          path: ./build/appcast.xml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download DMG artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dmg
+
+      - name: Download appcast artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: appcast
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ needs.build.outputs.version }}
+          name: v${{ needs.build.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            ${{ needs.build.outputs.dmg_name }}
+            appcast.xml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-appcast:
+    needs: [build, release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+
+      - name: Download appcast artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: appcast
+
+      - name: Update appcast.xml on gh-pages
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # appcast.xml is already downloaded to current directory by download-artifact
+          # Commit and push
+          git add appcast.xml
+          git commit -m "Update appcast.xml for v$VERSION" || echo "No changes to commit"
+          git push origin gh-pages

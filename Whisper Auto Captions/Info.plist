@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>ko</string>
+        <string>ja</string>
+    </array>
+
+    <!-- Sparkle Auto-Update Configuration -->
+    <key>SUFeedURL</key>
+    <string>https://zerodice0.github.io/fcpx-auto-captions/appcast.xml</string>
+
+    <key>SUPublicEDKey</key>
+    <string>g9Du3umajboKZtrnnb0bGdmYMHeuG7qNT5K/zTLLLH8=</string>
+
+    <!-- Enable automatic update checks -->
+    <key>SUEnableAutomaticChecks</key>
+    <true/>
+
+    <!-- Update check interval in seconds (default: 86400 = 24 hours) -->
+    <key>SUScheduledCheckInterval</key>
+    <integer>86400</integer>
+</dict>
+</plist>

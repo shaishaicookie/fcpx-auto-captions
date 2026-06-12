@@ -1,0 +1,45 @@
+# macOS
+**/.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Xcode user data
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcworkspace/xcuserdata/
+
+# Xcode build
+build/
+DerivedData/
+
+# Swift Package Manager
+.build/
+Packages/
+
+# Claude Code local settings
+.claude/settings.json
+.claude/settings.local.json
+.claude/skills/
+
+# Local MCP server configuration
+.mcp.json
+
+# Serena plugin local data
+.serena/
+
+# Conductor workspace data
+.context/
+
+# Local automation artifacts
+docs/manual-qa-artifacts/
+mcp_audit.db
+mcp_security.log
+
+# Whisper model files
+*.bin
+*.ggml
+/models/
+
+# FFmpeg binary (downloaded during build)
+Whisper Auto Captions/ffmpeg
