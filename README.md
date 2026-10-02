@@ -9,8 +9,6 @@
 <img src="demo.gif">
 
 ## UI Redesign
-<img width="2048" height="1173" alt="JK0xpNtQ4yquhdoDMQDkRqgeKo" src="https://github.com/user-attachments/assets/873e37c4-ad78-4326-aaa2-4e023e439b4a" />
-
 UI redesign by my friend [Shuang Shan](https://shuangshan.framer.website/projects/whisper-auto-caption-redesign).
 
 ## TODOS
