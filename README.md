@@ -10,6 +10,7 @@
 
 ## UI Redesign
 UI redesign by my friend [Shuang Shan](https://shuangshan.framer.website/projects/whisper-auto-caption-redesign).
+<img width="2048" height="1173" alt="JK0xpNtQ4yquhdoDMQDkRqgeKo" src="https://github.com/user-attachments/assets/e6ea5329-8ed7-4c51-8546-1e3c5ed672e5" />
 
 ## TODOS
 - [ ] Redesign 
