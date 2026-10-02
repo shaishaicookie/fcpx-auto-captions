@@ -1,4 +1,3 @@
-<img width="2048" height="1173" alt="JK0xpNtQ4yquhdoDMQDkRqgeKo" src="https://github.com/user-attachments/assets/2ba601a4-9c29-4907-9b4e-5765573e272f" />
 <p align="center">
     <img height="256" src="https://github.com/shaishaicookie/fcpx-auto-captions/blob/main/Whisper%20Auto%20Captions/Assets.xcassets/AppIcon.appiconset/1024.png" />
 </p>
