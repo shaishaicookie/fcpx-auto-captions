@@ -7,11 +7,12 @@
 ## Demo 
 <img src="demo.gif">
 
+## UI Redesign
+https://shuangshan.framer.website/projects/whisper-auto-caption-redesign
+UI Redesign by my friend Shuang Shan
 
 ## TODOS
-- [ ] fix bugs
-- [ ] publish on App Store (Free App)
-- [ ] stable whisper cpp
+- [ ] Redesign 
 
 ## Demo Video
 Youtube: [https://youtu.be/2_QOACyuZIk
