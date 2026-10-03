@@ -15,8 +15,9 @@ UI redesign by my friend [Shuang Shan](https://shuangshan.framer.website/project
 - [ ] Redesign 
 
 ## Demo Video
-Youtube: [https://youtu.be/2_QOACyuZIk
-](https://youtu.be/n1qMG87aJcw)
+English Demo: [YouTube](https://youtu.be/n1qMG87aJcw)
+Chinese Demo: [Bilibili](https://www.bilibili.com/video/BV1Fh4y1V7wE)
+
 ## Website
 https://whisperautocaptions.com/
 
